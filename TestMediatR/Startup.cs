@@ -1,4 +1,7 @@
-﻿using DataAssert;
+﻿using System.Reflection;
+using BusinessLogic;
+using DataAssert;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +28,8 @@ namespace TestMediatR
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMediatR(typeof(AddPersonCommand).GetTypeInfo().Assembly);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
