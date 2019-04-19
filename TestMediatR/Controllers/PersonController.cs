@@ -21,5 +21,11 @@ namespace TestMediatR.Controllers
             await _mediator.Send(command);
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Query([FromQuery] PersonQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
     }
 }
