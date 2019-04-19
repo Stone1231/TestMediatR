@@ -8,4 +8,8 @@
       <ProjectReference Include="..\DataAssert\DataAssert.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
+    </ItemGroup>
+
 </Project>
