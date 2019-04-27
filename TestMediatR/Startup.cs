@@ -30,6 +30,11 @@ namespace TestMediatR
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddMediatR(typeof(AddPersonCommand).GetTypeInfo().Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LogBehavior<,>));
+
+            // services.AddTransient(typeof(IRequestPreProcessor<>), typeof(LogPreProcessor<>));
+            // services.AddTransient(typeof(IRequestPostProcessor<,>), typeof(LogPostProcessor<,>));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
