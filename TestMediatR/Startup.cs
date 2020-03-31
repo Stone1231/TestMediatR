@@ -27,7 +27,13 @@ namespace TestMediatR
                 options.UseInMemoryDatabase("TestMediatR");
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
+
+            services.AddMvc()
+            .AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
 
             services.AddMediatR(typeof(AddPersonCommand).GetTypeInfo().Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
@@ -37,15 +43,19 @@ namespace TestMediatR
             // services.AddTransient(typeof(IRequestPostProcessor<,>), typeof(LogPostProcessor<,>));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseStaticFiles();
-
-            app.UseMvc(routes =>
+            // app.UseStaticFiles();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(name: "default",
-                                template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
+            // app.UseMvc(routes =>
+            // {
+            //     routes.MapRoute(name: "default",
+            //                     template: "{controller=Home}/{action=Index}/{id?}");
+            // });
         }
     }
 }
